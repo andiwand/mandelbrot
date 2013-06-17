@@ -1,0 +1,48 @@
+uniform vec2 start;
+uniform vec2 stepSize;
+
+uniform int iterationNumber;
+uniform float maxNorm;
+
+
+vec4 calculateColor(int iterations) {
+	if (iterations == iterationNumber) {
+		return vec4(0, 0, 0, 1);
+	} else {
+		vec4 result;
+		
+		result.b = float(iterations) / float(iterationNumber);
+		result.r = 1 - result.b;
+		result.g = 0;
+		
+		return result;
+	}
+}
+
+vec4 calculatePoint(vec2 c) {
+	vec2 tmp;
+	vec2 z;
+	float maxNormPow2 = maxNorm * maxNorm;
+	float normPow2 = 0.0;
+	int iteration = 0;
+	
+	while (iteration < iterationNumber) {
+		tmp.x = z.x * z.x - z.y * z.y + c.x;
+		tmp.y = 2.0 * z.x * z.y + c.y;
+		z = tmp;
+		normPow2 = z.x * z.x + z.y * z.y;
+		
+		if (normPow2 > maxNormPow2) break;
+		
+		iteration++;
+	}
+	
+	return calculateColor(iteration);
+}
+
+
+void main() {
+	vec2 c = start + gl_FragCoord.xy * stepSize;
+	
+	gl_FragColor = calculatePoint(c);
+}
