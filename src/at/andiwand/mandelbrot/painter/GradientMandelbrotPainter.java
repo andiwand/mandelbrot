@@ -2,7 +2,7 @@ package at.andiwand.mandelbrot.painter;
 
 import java.awt.Color;
 
-import at.andiwand.commons.math.vector.Vector3d;
+import at.stefl.commons.math.vector.Vector3d;
 
 public class GradientMandelbrotPainter implements MandelbrotPainter {
 
