@@ -17,11 +17,16 @@ public class BigRectangle {
 	this.height = height;
     }
 
-    public BigRectangle(double x, double y, double width, double height) {
+	public BigRectangle(double x, double y, double width, double height) {
 	this.x = new BigDecimal(x);
 	this.y = new BigDecimal(y);
 	this.width = new BigDecimal(width);
 	this.height = new BigDecimal(height);
     }
+	
+	@Override
+	public String toString() {
+	return "[x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
+	}
 
 }

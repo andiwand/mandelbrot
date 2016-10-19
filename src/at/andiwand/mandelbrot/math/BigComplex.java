@@ -6,6 +6,8 @@ import java.math.MathContext;
 public class BigComplex {
 
     private static final BigDecimal TWO = BigDecimal.valueOf(2);
+    
+    public static final BigComplex ZERO = new BigComplex(0, 0);
 
     private BigDecimal real;
     private BigDecimal imaginary;
@@ -29,8 +31,8 @@ public class BigComplex {
 
     @Override
     public String toString() {
-	return real.toEngineeringString() + " + ("
-		+ imaginary.toEngineeringString() + ")i";
+	return real.toEngineeringString() + " + i("
+		+ imaginary.toEngineeringString() + ")";
     }
 
     public BigDecimal getReal() {
@@ -63,5 +65,5 @@ public class BigComplex {
     public BigDecimal norm2(MathContext context) {
 	return real.pow(2, context).add(imaginary.pow(2, context));
     }
-
+    
 }

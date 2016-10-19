@@ -2,8 +2,14 @@ package at.andiwand.mandelbrot.painter;
 
 import java.awt.Color;
 
-public interface MandelbrotPainter {
+import at.andiwand.mandelbrot.math.BigComplex;
 
-    public Color paintPoint(int iterationCount);
+public abstract class MandelbrotPainter {
+
+    public abstract Color paintPoint(int iterationCount);
+    
+    public Color paintPoint(boolean convergent, int iterationCount, BigComplex z) {
+    	return paintPoint(iterationCount);
+    }
 
 }

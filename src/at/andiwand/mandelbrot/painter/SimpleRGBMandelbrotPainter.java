@@ -2,7 +2,7 @@ package at.andiwand.mandelbrot.painter;
 
 import java.awt.Color;
 
-public class SimpleRGBMandelbrotPainter implements MandelbrotPainter {
+public class SimpleRGBMandelbrotPainter extends MandelbrotPainter {
 
     private int factor;
 

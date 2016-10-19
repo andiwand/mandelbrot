@@ -8,49 +8,66 @@ import at.andiwand.mandelbrot.math.BigComplex;
 
 public abstract class MandelbrotIterator implements Serializable {
 
-    private static final long serialVersionUID = -3810408805009419683L;
+	private static final long serialVersionUID = -3810408805009419683L;
 
-    private MathContext context;
+	protected MathContext context;
 
-    private int maxIterationCount;
-    private BigDecimal maxNorm2;
+	protected int maxIterationCount;
+	protected BigDecimal maxNorm2;
 
-    public MandelbrotIterator(MathContext context, int maxIterationCount,
-	    BigDecimal maxNorm2) {
-	this.context = context;
-	this.maxIterationCount = maxIterationCount;
-	this.maxNorm2 = maxNorm2;
-    }
+	protected int iterations;
+	protected BigComplex z;
+	protected boolean convergent;
 
-    public MandelbrotIterator(MathContext context, int maxIterationCount,
-	    double maxNorm2) {
-	this(context, maxIterationCount, BigDecimal.valueOf(maxNorm2));
-    }
+	public MandelbrotIterator(MathContext context, int maxIterationCount, BigDecimal maxNorm2) {
+		this.context = context;
+		this.maxIterationCount = maxIterationCount;
+		this.maxNorm2 = maxNorm2;
+	}
 
-    public MathContext getContext() {
-	return context;
-    }
+	public MandelbrotIterator(MathContext context, int maxIterationCount, double maxNorm2) {
+		this(context, maxIterationCount, BigDecimal.valueOf(maxNorm2));
+	}
+	
+	@Override
+	public abstract MandelbrotIterator clone();
 
-    public int getMaxIterationCount() {
-	return maxIterationCount;
-    }
+	public MathContext getContext() {
+		return context;
+	}
 
-    public BigDecimal getMaxNorm2() {
-	return maxNorm2;
-    }
+	public int getMaxIterationCount() {
+		return maxIterationCount;
+	}
 
-    public void setContext(MathContext context) {
-	this.context = context;
-    }
+	public BigDecimal getMaxNorm2() {
+		return maxNorm2;
+	}
 
-    public void setMaxIterationCount(int maxIterationCount) {
-	this.maxIterationCount = maxIterationCount;
-    }
+	public BigComplex getZ() {
+		return z;
+	}
 
-    public void setMaxNorm2(BigDecimal maxNorm) {
-	this.maxNorm2 = maxNorm;
-    }
+	public int getIterations() {
+		return iterations;
+	}
 
-    public abstract int iteratePoint(BigComplex c);
+	public boolean isConvergent() {
+		return convergent;
+	}
+
+	public void setContext(MathContext context) {
+		this.context = context;
+	}
+
+	public void setMaxIterationCount(int maxIterationCount) {
+		this.maxIterationCount = maxIterationCount;
+	}
+
+	public void setMaxNorm2(BigDecimal maxNorm) {
+		this.maxNorm2 = maxNorm;
+	}
+
+	public abstract void iteratePoint(BigComplex c);
 
 }

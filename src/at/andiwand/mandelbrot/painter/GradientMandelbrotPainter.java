@@ -1,48 +1,49 @@
 package at.andiwand.mandelbrot.painter;
 
 import java.awt.Color;
+import java.math.MathContext;
 
+import at.andiwand.mandelbrot.math.BigComplex;
 import at.stefl.commons.math.vector.Vector3d;
 
-public class GradientMandelbrotPainter implements MandelbrotPainter {
+public class GradientMandelbrotPainter extends MandelbrotPainter {
 
-    private Color[] table;
+	private final MathContext context;
+    private Vector3d[] table;
 
-    public GradientMandelbrotPainter(int partResolution,
-	    Color... gradientColors) {
-	Vector3d[] gradients = new Vector3d[gradientColors.length];
+    public GradientMandelbrotPainter(MathContext context, Color... colors) {
+    	this.context = context;
+    	table = new Vector3d[colors.length];
 
-	for (int i = 0; i < gradientColors.length; i++) {
-	    double r = gradientColors[i].getRed() / 255d;
-	    double g = gradientColors[i].getGreen() / 255d;
-	    double b = gradientColors[i].getBlue() / 255d;
-	    gradients[i] = new Vector3d(r, g, b);
+	for (int i = 0; i < colors.length; i++) {
+	    double r = colors[i].getRed() / 255d;
+	    double g = colors[i].getGreen() / 255d;
+	    double b = colors[i].getBlue() / 255d;
+	    table[i] = new Vector3d(r, g, b);
 	}
-
-	table = new Color[partResolution * gradientColors.length];
-
-	for (int i = 0, j = 0; i < gradients.length; i++) {
-	    Vector3d start = gradients[i];
-	    Vector3d end = gradients[(i + 1) % gradients.length];
-	    Vector3d step = end.sub(start).div(partResolution);
-
-	    for (int k = 0; k < partResolution; k++, j++) {
-		Vector3d color = start.add(step.mul(k));
-		table[j] = new Color((float) color.getX(),
-			(float) color.getY(), (float) color.getZ());
-	    }
-	}
+    }
+    
+    public Color interpolate(int iterationCount, double smooth) {
+    	Vector3d a = table[iterationCount % table.length];
+    	Vector3d b = table[(iterationCount + 1) % table.length];
+    	Vector3d c = a.mul(1 - smooth).add(b.mul(smooth));
+    	return new Color((float) c.getX(), (float) c.getY(), (float) c.getZ());
+    }
+    
+    @Override
+    public Color paintPoint(int iterationCount) {
+    	return paintPoint(iterationCount == -1, iterationCount, BigComplex.ZERO);
     }
 
     @Override
-    public Color paintPoint(int iterationCount) {
-	if (iterationCount >= 0) {
-	    return table[iterationCount % table.length];
-	} else if (iterationCount == -1) {
-	    return Color.BLACK;
-	}
-
-	return Color.WHITE;
+    public Color paintPoint(boolean convergent, int iterationCount, BigComplex z) {
+    	if (convergent) return Color.BLACK;
+    	
+    	double nsmooth = iterationCount + 1 - Math.log(Math.log(z.norm2(context).doubleValue()))/Math.log(2);
+    	iterationCount = (int) nsmooth;
+    	double smooth = nsmooth - iterationCount;
+    	//double smooth = Math.exp(-z.norm2(context).doubleValue());
+		return interpolate(iterationCount, smooth);
     }
 
 }

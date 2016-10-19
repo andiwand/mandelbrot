@@ -28,7 +28,7 @@ public class MultithreadedMandelbrotPlotter extends MandelbrotPlotter {
 	public PartGenerator(MandelbrotIterator iterator, MandelbrotMap map,
 		int offsetX, int offsetY, BigDecimal stepX, BigDecimal stepY,
 		BigRectangle viewport, Dimension size) {
-	    this.iterator = iterator;
+	    this.iterator = iterator.clone();
 	    this.map = map;
 	    this.offsetX = offsetX;
 	    this.offsetY = offsetY;
@@ -52,9 +52,8 @@ public class MultithreadedMandelbrotPlotter extends MandelbrotPlotter {
 		    BigDecimal bigY = viewport.y.add(stepY.multiply(BigDecimal
 			    .valueOf(y)));
 
-		    int iterations = iterator.iteratePoint(new BigComplex(bigX,
-			    bigY));
-		    map.setIterations(offsetX + x, offsetY + y, iterations);
+		    iterator.iteratePoint(new BigComplex(bigX, bigY));
+		    map.set(offsetX + x, offsetY + y, iterator);
 		}
 	    }
 	}

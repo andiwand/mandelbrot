@@ -27,9 +27,8 @@ public class SimpleMandelbrotPlotter extends MandelbrotPlotter {
 		BigDecimal bigY = viewport.y.add(stepY.multiply(BigDecimal
 			.valueOf(y)));
 
-		int iterations = iterator.iteratePoint(new BigComplex(bigX,
-			bigY));
-		map.setIterations(x, y, iterations);
+		iterator.iteratePoint(new BigComplex(bigX, bigY));
+		map.set(x, y, iterator);
 	    }
 	}
     }

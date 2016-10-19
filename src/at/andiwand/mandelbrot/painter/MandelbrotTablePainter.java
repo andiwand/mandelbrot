@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class MandelbrotTablePainter implements MandelbrotPainter {
+public class MandelbrotTablePainter extends MandelbrotPainter {
 
     private final Color[] table;
 

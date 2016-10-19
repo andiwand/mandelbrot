@@ -3,6 +3,6 @@
 	<classpathentry excluding="mandelbrot/rmi/MandelbrotWorker.java|mandelbrot/rmi/MandelbrotWorkerImpl.java|at/andiwand/mandelbrot/rmi/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lwjgl-2.5/jar/lwjgl.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/commons"/>
+	<classpathentry kind="lib" path="dep/commons/commons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

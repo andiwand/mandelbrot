@@ -74,6 +74,7 @@ public class MandelbrotView extends JComponent {
 	public void mouseReleased(MouseEvent e) {
 	    switch (e.getButton()) {
 	    case MouseEvent.BUTTON1:
+	    	if (selection.width == 0) break;
 		BigDecimal stepX = viewport.width.divide(
 			BigDecimal.valueOf(getWidth()), new MathContext(10));
 		BigDecimal stepY = viewport.height.divide(
@@ -90,6 +91,7 @@ public class MandelbrotView extends JComponent {
 			.multiply(stepY);
 		lastViewports.add(viewport);
 		viewport = new BigRectangle(x, y, width, height);
+		System.out.println(viewport);
 		recalc();
 	    case MouseEvent.BUTTON3:
 		selection = null;
@@ -105,6 +107,7 @@ public class MandelbrotView extends JComponent {
 	    if (lastViewports.isEmpty())
 		return;
 	    viewport = lastViewports.removeLast();
+	    System.out.println(viewport);
 
 	    recalc();
 	}
@@ -201,9 +204,9 @@ public class MandelbrotView extends JComponent {
 	// maxIterationCount);
 	// MandelbrotPainter painter = new
 	// HSVMandelbrotPainter(maxIterationCount);
-	MandelbrotPainter painter = new GradientMandelbrotPainter(100,
-		new Color(1, 5, 72), new Color(242, 254, 242), new Color(255,
+	Color[] gradient = Util.gradient(100, new Color(1, 5, 72), new Color(242, 254, 242), new Color(255,
 			170, 1), new Color(21, 3, 63), new Color(1, 5, 92));
+	MandelbrotPainter painter = new GradientMandelbrotPainter(context, gradient);
 	// MandelbrotPainter painter = new SimpleBlueMandelbrotPainter(
 	// maxIterationCount);
 	MandelbrotGenerator generator = new MultithreadedMandelbrotPlotter();

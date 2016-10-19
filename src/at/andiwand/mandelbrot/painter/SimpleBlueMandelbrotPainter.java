@@ -2,7 +2,7 @@ package at.andiwand.mandelbrot.painter;
 
 import java.awt.Color;
 
-public class SimpleBlueMandelbrotPainter implements MandelbrotPainter {
+public class SimpleBlueMandelbrotPainter extends MandelbrotPainter {
 
     private int maxIterationCount;
 

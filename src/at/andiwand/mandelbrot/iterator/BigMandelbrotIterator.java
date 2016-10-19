@@ -18,22 +18,32 @@ public class BigMandelbrotIterator extends MandelbrotIterator {
 	    double maxNorm2) {
 	super(context, maxIterationCount, maxNorm2);
     }
+    
+    @Override
+    public BigMandelbrotIterator clone() {
+    	return new BigMandelbrotIterator(context, maxIterationCount, maxNorm2);
+    }
 
     @Override
-    public int iteratePoint(BigComplex c) {
+    public void iteratePoint(BigComplex c) {
 	MathContext context = getContext();
 	int maxIterationCount = getMaxIterationCount();
 	BigDecimal maxNorm2 = getMaxNorm2();
-
 	BigComplex z = new BigComplex();
+	int i;
 
-	for (int i = 0; i < maxIterationCount; i++) {
+	this.convergent = true;
+	
+	for (i = 0; i < maxIterationCount; i++) {
 	    z = z.pow2(context).add(c, context);
-	    if (z.pow2(context).norm2(context).compareTo(maxNorm2) > 0)
-		return i;
+	    if (z.pow2(context).norm2(context).compareTo(maxNorm2) > 0) {
+	    	break;
+	    }
 	}
 
-	return -1;
+	this.convergent = false;
+	this.iterations = i;
+	this.z = z;
     }
 
 }
